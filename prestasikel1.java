@@ -1,28 +1,28 @@
 import java.util.Scanner;
 
 public class prestasikel1 {
-    private static final int MAX_ENTRIES = 100;
-    private static String[][] prestasiData = new String[MAX_ENTRIES][5];
+    private static int maxData = 100;
+    private static String[][] prestasiData = new String[maxData][5];
     private static int entryCount = 0;
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int choice;
+        Scanner sc = new Scanner(System.in);
+        int pilihMenu;
 
         do {
-            displayMenu();
-            choice = scanner.nextInt();
-            scanner.nextLine(); // Membersihkan buffer
+            TampilanMenu();
+            pilihMenu = sc.nextInt();
+            sc.nextLine(); 
 
-            switch (choice) {
+            switch (pilihMenu) {
                 case 1:
-                    addPrestasiData(scanner);
+                    tambahPrestasiData(sc);
                     break;
                 case 2:
-                    displayPrestasiData();
+                    tampilkanPrestasiData();
                     break;
                 case 3:
-                    analyzePrestasiData(scanner);
+                    analisisPrestasiData(sc);
                     break;
                 case 4:
                     System.out.println("Terima kasih!");
@@ -30,10 +30,10 @@ public class prestasikel1 {
                 default:
                     System.out.println("Pilihan tidak valid. Silakan coba lagi.");
             }
-        } while (choice != 4);
+        } while (pilihMenu != 4);
     }
 
-    private static void displayMenu() {
+    private static void TampilanMenu() {
         System.out.println("=== PENCATATAN PRESTASI MAHASISWA ===");
         System.out.println("1. Tambah Data Prestasi");
         System.out.println("2. Tampilkan Daftar Prestasi");
@@ -42,27 +42,27 @@ public class prestasikel1 {
         System.out.print("Pilih menu: ");
     }
 
-    private static void addPrestasiData(Scanner scanner) {
-        if (entryCount >= MAX_ENTRIES) {
+    private static void tambahPrestasiData(Scanner sc) {
+        if (entryCount >= maxData) {
             System.out.println("Maaf, data prestasi sudah mencapai kapasitas maksimal.");
             return;
         }
 
         System.out.print("Masukkan nama mahasiswa: ");
-        prestasiData[entryCount][0] = scanner.nextLine();
+        prestasiData[entryCount][0] = sc.nextLine();
 
         System.out.print("Masukkan NIM mahasiswa: ");
-        prestasiData[entryCount][1] = scanner.nextLine();
+        prestasiData[entryCount][1] = sc.nextLine();
 
         System.out.print("Masukkan jenis prestasi: ");
-        prestasiData[entryCount][2] = scanner.nextLine();
+        prestasiData[entryCount][2] = sc.nextLine();
 
         System.out.print("Masukkan tingkat prestasi (Lokal/Nasional/Internasional): ");
-        prestasiData[entryCount][3] = scanner.nextLine();
+        prestasiData[entryCount][3] = sc.nextLine();
 
         System.out.print("Masukkan tahun prestasi (2010 - 2024): ");
-        int tahun = scanner.nextInt();
-        scanner.nextLine();
+        int tahun = sc.nextInt();
+        sc.nextLine();
 
         if (tahun < 2010 || tahun > 2024) {
             System.out.println("Tahun prestasi tidak valid. Silakan coba lagi.");
@@ -74,7 +74,7 @@ public class prestasikel1 {
         System.out.println("Data prestasi berhasil ditambahkan.");
     }
 
-    private static void displayPrestasiData() {
+    private static void tampilkanPrestasiData() {
         System.out.println("=== DAFTAR PRESTASI MAHASISWA ===");
         System.out.println("Nama\tNIM\tJenis\tTingkat\tTahun");
 
@@ -87,10 +87,10 @@ public class prestasikel1 {
         }
     }
 
-    private static void analyzePrestasiData(Scanner scanner) {
+    private static void analisisPrestasiData(Scanner sc) {
         System.out.println("=== ANALISIS PRESTASI ===");
         System.out.print("Masukkan jenis prestasi yang ingin dianalisis: ");
-        String jenisPrestasiTarget = scanner.nextLine();
+        String jenisPrestasiTarget = sc.nextLine();
 
         int localCount = 0;
         int nasionalCount = 0;
