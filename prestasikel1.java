@@ -1,12 +1,12 @@
 import java.util.Scanner;
 
 public class prestasikel1 {
-    private static int maxData = 100;
-    private static String[][] prestasiData = new String[maxData][5];
-    private static int entryCount = 0;
+     static int maxData = 100;
+     static String[][] prestasiData = new String[maxData][5];
+     static int jumlahData = 0;
+     static Scanner sc = new Scanner(System.in);
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
         int pilihMenu;
 
         do {
@@ -16,13 +16,13 @@ public class prestasikel1 {
 
             switch (pilihMenu) {
                 case 1:
-                    tambahPrestasiData(sc);
+                    tambahPrestasiData();
                     break;
                 case 2:
                     tampilkanPrestasiData();
                     break;
                 case 3:
-                    analisisPrestasiData(sc);
+                    analisisPrestasiData();
                     break;
                 case 4:
                     System.out.println("Terima kasih!");
@@ -33,7 +33,7 @@ public class prestasikel1 {
         } while (pilihMenu != 4);
     }
 
-    private static void TampilanMenu() {
+     static void TampilanMenu() {
         System.out.println("=== PENCATATAN PRESTASI MAHASISWA ===");
         System.out.println("1. Tambah Data Prestasi");
         System.out.println("2. Tampilkan Daftar Prestasi");
@@ -42,75 +42,85 @@ public class prestasikel1 {
         System.out.print("Pilih menu: ");
     }
 
-    private static void tambahPrestasiData(Scanner sc) {
-        if (entryCount >= maxData) {
-            System.out.println("Maaf, data prestasi sudah mencapai kapasitas maksimal.");
-            return;
+     static void tambahPrestasiData() {
+        String namaMhs, nim, jenisPrestasi, tingkatPrestasi, tahunPrestasi;
+        System.out.print("Masukkan Nama Mahasiswa: ");
+        namaMhs = sc.nextLine();
+        System.out.print("Masukkan NIM Mahasiswa: ");
+        nim = sc.nextLine();
+        System.out.print("Masukkan Jenis Prestasi: ");
+        jenisPrestasi = sc.nextLine();
+
+        while (true) {
+            System.out.print("Masukkan Tingkat Prestasi (Lokal/Nasional/Internasional): ");
+            tingkatPrestasi = sc.nextLine();
+            if (tingkatPrestasi.equalsIgnoreCase("Lokal") ||
+                tingkatPrestasi.equalsIgnoreCase("Nasional") ||
+                tingkatPrestasi.equalsIgnoreCase("Internasional")) {
+                break;
+            } else {
+                System.out.println("Input Tingkat Prestasi tidak valid. Coba lagi!");
+            }
+        }
+        while (true) {
+            System.out.print("Masukkan Tahun Prestasi (2010 - 2024) : ");
+            tahunPrestasi = sc.nextLine();
+
+            int tahun = Integer.parseInt(tahunPrestasi);
+            if (tahun >= 2010 || tahun <= 2024) {
+                break;
+            } else {
+                System.out.println("Tahun tidak valid. Coba lagi!");
+            }
         }
 
-        System.out.print("Masukkan nama mahasiswa: ");
-        prestasiData[entryCount][0] = sc.nextLine();
+       prestasiData[jumlahData][0] = namaMhs;
+       prestasiData[jumlahData][1] = nim;
+       prestasiData[jumlahData][2] = jenisPrestasi;
+       prestasiData[jumlahData][3] = tingkatPrestasi;
+       prestasiData[jumlahData][4] = tahunPrestasi;
+        jumlahData++;
 
-        System.out.print("Masukkan NIM mahasiswa: ");
-        prestasiData[entryCount][1] = sc.nextLine();
-
-        System.out.print("Masukkan jenis prestasi: ");
-        prestasiData[entryCount][2] = sc.nextLine();
-
-        System.out.print("Masukkan tingkat prestasi (Lokal/Nasional/Internasional): ");
-        prestasiData[entryCount][3] = sc.nextLine();
-
-        System.out.print("Masukkan tahun prestasi (2010 - 2024): ");
-        int tahun = sc.nextInt();
-        sc.nextLine();
-
-        if (tahun < 2010 || tahun > 2024) {
-            System.out.println("Tahun prestasi tidak valid. Silakan coba lagi.");
-            return;
-        }
-
-        prestasiData[entryCount][4] = String.valueOf(tahun);
-        entryCount++;
-        System.out.println("Data prestasi berhasil ditambahkan.");
+        System.out.println("Prestasi berhasil ditambahkan.");
     }
 
-    private static void tampilkanPrestasiData() {
+     static void tampilkanPrestasiData() {
+        if (jumlahData == 0) {
+            System.out.println("Belum ada data prestasi");
+        }else{
         System.out.println("=== DAFTAR PRESTASI MAHASISWA ===");
         System.out.println("Nama\tNIM\tJenis\tTingkat\tTahun");
 
-        for (int i = 0; i < entryCount; i++) {
+        for (int i = 0; i < jumlahData; i++) {
             System.out.println(prestasiData[i][0] + "\t" +
                               prestasiData[i][1] + "\t" +
                               prestasiData[i][2] + "\t" +
                               prestasiData[i][3] + "\t" +
                               prestasiData[i][4]);
-        }
+            }
+         }   
     }
 
-    private static void analisisPrestasiData(Scanner sc) {
-        System.out.println("=== ANALISIS PRESTASI ===");
-        System.out.print("Masukkan jenis prestasi yang ingin dianalisis: ");
-        String jenisPrestasiTarget = sc.nextLine();
+     static void analisisPrestasiData() {
+        if (jumlahData == 0) {
+            System.out.println("Belum ada data untuk di analisis");
+            return;
+        }
+        System.out.print("Masukkan jenis prestasi untuk analisis: ");
+        String jenisPrestasi = sc.nextLine();
 
-        int localCount = 0;
-        int nasionalCount = 0;
-        int internasionalCount = 0;
+        System.out.println("\n===== Hasil Analisis =====");
+        boolean cari = true;
 
-        for (int i = 0; i < entryCount; i++) {
-            if (prestasiData[i][2].equals(jenisPrestasiTarget)) {
-                if (prestasiData[i][3].equals("Lokal")) {
-                    localCount++;
-                } else if (prestasiData[i][3].equals("Nasional")) {
-                    nasionalCount++;
-                } else if (prestasiData[i][3].equals("Internasional")) {
-                    internasionalCount++;
-                }
+        for (int i = 0; i < jumlahData; i++) {
+            if (prestasiData[i][2].equalsIgnoreCase(jenisPrestasi)) {
+                System.out.printf("%d. Nama: %s | NIM: %s | Tingkat: %s | Tahun: %s%n",
+                        i + 1, prestasiData[i][0], prestasiData[i][1], prestasiData[i][3], prestasiData[i][4]);
+                cari = true;
             }
         }
-
-        System.out.println("Jumlah prestasi " + jenisPrestasiTarget + " berdasarkan tingkat:");
-        System.out.println("Lokal: " + localCount);
-        System.out.println("Nasional: " + nasionalCount);
-        System.out.println("Internasional: " + internasionalCount);
+        if (!cari) {
+            System.out.printf("Tidak ada prestasi dengan jenis \"%s\".%n", jenisPrestasi);
+        }
     }
 }
